@@ -1,0 +1,56 @@
+.carousel-body {
+  background: -webkit-linear-gradient(top, #4D4D4D 0, #4D4D4D 180px, #939393 400px);
+  background-color: #eee;
+  padding-top: 0px;
+  padding-bottom: 120px;
+}
+
+.rounded-image {
+  border-radius: 15px;
+}
+
+.book-title {
+  font-size: 2em;
+}
+
+.book-title-smaller {
+  font-size: 1.3em;
+  font-weight: bold;
+}
+
+.book-author {
+  font-size: 1.5em;
+}
+
+.book-author-smaller {
+  font-size: 1.2em;
+}
+
+.book-info {
+  font-size: 1.1em;
+}
+
+.amazon-email {
+  width: 250px;
+}
+
+.book {
+  padding-bottom: 40px;
+}
+
+.book-image {
+  padding-bottom: 40px;
+}
+
+.vtop {
+  vertical-align: top;
+}
+
+.sort-by-button {
+  border: 0;
+}
+
+.sort-button {
+  padding-left: 6px;
+  padding-right: 6px;
+}
