@@ -180,6 +180,56 @@ LOCK TABLES `books` WRITE;
 /*!40000 ALTER TABLE `books` DISABLE KEYS */;
 /*!40000 ALTER TABLE `books` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `database_info`
+--
+
+DROP TABLE IF EXISTS `database_info`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `database_info` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` text NOT NULL,
+  `value` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `database_info`
+--
+
+LOCK TABLES `database_info` WRITE;
+/*!40000 ALTER TABLE `database_info` DISABLE KEYS */;
+INSERT INTO `database_info` VALUES (1,'database_version','1');
+/*!40000 ALTER TABLE `database_info` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `tokens`
+--
+
+DROP TABLE IF EXISTS `tokens`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tokens` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `token` varchar(50) NOT NULL,
+  `claimed` tinyint(4) DEFAULT '0',
+  `date_created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `tokens`
+--
+
+LOCK TABLES `tokens` WRITE;
+/*!40000 ALTER TABLE `tokens` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tokens` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -190,4 +240,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-05-12 16:47:44
+-- Dump completed on 2014-05-12 17:25:42
