@@ -23,7 +23,7 @@ if($row['published_date'] !== '') {
 }
 
 $converted = false;
-if (isset($_GET['convert']) &&  $_GET['convert'] == true) {
+if (isset($_GET['convert']) &&  $_GET['convert'] === true) {
   preg_match("/^(\/.*\/)(.*)\.[epub|mobi]/", $row['location'], $file_name);
   if($row['type'] == 'mobi')
     $new_format = 'epub';
@@ -65,5 +65,4 @@ if (file_exists($file)) {
 }
 else
   echo "File doesn't exist";
-
 ?>

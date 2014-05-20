@@ -54,3 +54,8 @@
   padding-left: 6px;
   padding-right: 6px;
 }
+
+.no-padding {
+  padding-left: 0px;
+  padding-right: 0px;
+}

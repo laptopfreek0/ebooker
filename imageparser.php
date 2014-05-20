@@ -7,6 +7,7 @@
   if($results->num_rows == 1) {
   } else {
     // Display image not found
+    $file = 'img/generic_cover.jpg';
   }
   $results->data_seek(0);
   $row = $results->fetch_assoc();
@@ -14,6 +15,7 @@
   $file = $row['image_location'];
 
   if (!file_exists($file)) {
+    // Display generic image
     $file = 'img/generic_cover.jpg';
   }
 
