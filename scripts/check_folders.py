@@ -3,6 +3,7 @@
 import sys
 import os
 import re
+import MySQLdb
 
 from lib.database import Database
 
@@ -46,7 +47,7 @@ for row in cur.fetchall() :
                         if "Published" in output:
                             publ = re.search(r'.*Published.*\: (.*)$', output, re.I|re.M)
                             if publ is not None:
-                                publised_date = publ.group(1)
+                                published_date = publ.group(1)
                             else:
                                 published_date = ''
                         else:
@@ -104,8 +105,10 @@ for row in cur.fetchall() :
                                 cur2.execute('INSERT into book_metas (name, author, published_date, publisher, description, image_location, identifiers, tags, rating) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)',
                                             (bookname, author, published_date, publisher, comments, root + filename + ".jpg", identifiers, tags, rating))
                                 database2.commit()
-                            except:
-                                database2.rollback() 
+                            except MySQLdb.Error, e:
+                                database2.rollback()
+                                print "Rolled Back DB"
+                                print "MySQL Error [%d]: %s" % (e.args[0], e.args[1])
                         else:
                             # MetaData Found
                             # For now do nothing
