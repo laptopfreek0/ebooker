@@ -2,6 +2,7 @@
 
 import sys
 import os
+import subprocess
 import re
 import MySQLdb
 
@@ -21,7 +22,8 @@ for row in cur.fetchall() :
         for file in files:
             if file.endswith(".epub") | file.endswith("mobi"):
                 filepath = os.path.join(root, file)
-                cur2.execute('SELECT id FROM books WHERE location = %s', (filepath))
+                #print (filepath)
+                cur2.execute("SELECT id FROM books WHERE location = %s", [filepath])
                 if (len(cur2.fetchall()) == 0) :
                     # New file found
                     filename = os.path.splitext(file)[0]
@@ -29,7 +31,8 @@ for row in cur.fetchall() :
                     extension = re.search(r'\.(.*)$', extension, re.I|re.M).group(1)
                     output = os.popen('ebook-meta "' + filepath + '"')
                     output = output.read()
-                    print output
+                    print (filename)
+                    print (output)
                     if "Title" in output:
                         bookname = re.search(r'.*Title.*\: (.*)$', output, re.I|re.M).group(1)
                         if "Author" in output:
@@ -92,30 +95,29 @@ for row in cur.fetchall() :
                                 rating = ''
                         else:
                             rating = ''
-                        cur2.execute('SELECT id, image_location FROM book_metas WHERE name = %s AND author = %s', (bookname, author))
+                        cur2.execute('SELECT id, image_location FROM book_metas WHERE name = %s AND author = %s', [bookname, author])
                         results = cur2.fetchall() 
                         if (len(results) == 0):
                             # No Metadata Found
-                            print "No Metadata found in database"
+                            print ("No Metadata found in database")
                             if not(os.path.isfile(root + filename + ".jpg")):
                                 # No cover found saving it
-                                print "No Cover found saving it"
-                                output = os.popen('ebook-meta --get-cover="' + root + filename + '.jpg" "' + filepath + '"') 
+                                print ("No Cover found saving it")
+                                output = subprocess.Popen(['/usr/bin/ebook-meta', '--get-cover=' + root + filename + '.jpg', filepath])
                             try:
                                 cur2.execute('INSERT into book_metas (name, author, published_date, publisher, description, image_location, identifiers, tags, rating) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)',
-                                            (bookname, author, published_date, publisher, comments, root + filename + ".jpg", identifiers, tags, rating))
+                                            [bookname, author, published_date, publisher, comments, root + filename + ".jpg", identifiers, tags, rating])
                                 database2.commit()
-                            except MySQLdb.Error, e:
+                            except MySQLdb.Error as e:
                                 database2.rollback()
-                                print "Rolled Back DB"
-                                print "MySQL Error [%d]: %s" % (e.args[0], e.args[1])
+                                print ("Rolled Back DB")
+                                print ("MySQL Error [%d]: %s" % (e.args[0], e.args[1]))
                         else:
                             # MetaData Found
                             # For now do nothing
                             results[0][1]
-                        cur2.execute('SELECT id FROM book_metas WHERE name = %s AND author = %s', (bookname, author))
+                        cur2.execute('SELECT id FROM book_metas WHERE name = %s AND author = %s', [bookname, author])
                         meta_id = cur2.fetchone()[0]
-                        cur2.execute('INSERT into books (book_meta_id, type, location) VALUES (%s, %s, %s)', (meta_id, extension, filepath))
+                        cur2.execute('INSERT into books (book_meta_id, type, location) VALUES (%s, %s, %s)', [meta_id, extension, filepath])
                         database2.commit()
                         
-                        print 

@@ -1,13 +1,13 @@
 #!/usr/bin/python3
 
 import MySQLdb
-import ConfigParser
+import configparser
 import sys
 
-from configsectionmap import ConfigSectionMap
+from .configsectionmap import ConfigSectionMap
 
 def Database():
-    config = ConfigParser.ConfigParser()
+    config = configparser.ConfigParser()
     config.read("../config/config.ini")
     config.sections()
     mysql_user = ConfigSectionMap(config, "Database")['mysql_user']
